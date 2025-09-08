@@ -1,0 +1,125 @@
+body {
+  background: #E8F8F5;
+  font-family: "Space Grotesk", sans-serif;
+  color: #C2185B;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2 {
+  font-family: "Macondo Swash Caps", cursive;
+  color: #F8B195;
+  text-align: center;
+  margin-top: 30px;
+}
+
+/* BLOQUES FLEXIBLES */
+.bloque {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin: 30px auto;
+  max-width: 1100px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* IMAGENES */
+.imagen {
+  flex: 0 0 40%;
+  width: 100%;
+  max-width: 420px;
+  border: 5px solid #154360;
+  background: #D6EAF8;
+  padding: 5px;
+  height; auto;
+  box-sizing: border-box;
+}
+
+/* TABLA DE INGREDIENTES */
+.tabla {
+  background-color: #FFEBEE;
+  border: 1px solid #581845;
+  color: #C2185B;
+  width: 300px;
+  border-collapse: collapse;
+  padding: 10px;
+}
+
+.tabla th, tabla td {
+  padding: 15px;
+  background-color: #FADADD;
+  border: 1px solid #581845;
+}
+
+/* PREPARACION */
+.preparacion {
+  flex: 1 1 55%;
+  min-width: 280px;
+  background-color: #FFEBEE;
+  border: 5px solid #581845;
+  color: #C2185B;
+  padding: 12px;
+  max-width: 700px;
+  text-align: justify;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+/* NAVBAR */
+.navbar {
+  background-color: #FADADD;
+  padding: 10px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar li {
+  margin: 0 15px;
+}
+
+.navbar a {
+  text-decoration: none;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 18px;
+  color: #5E548E;
+  font-weight: bold;
+  padding: 8px 12px;
+  transition: background 0.3s ease, color 0.3s ease;
+  border-radius: 6px;
+}
+
+.navbar a:hover {
+  background-color: #D1C4E9;
+  color: #fff;
+}
+
+/* FUENTE FINAL */
+.fuente {
+  background-color: #F9E79F;
+  text-align: center;
+  padding: 10px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .bloque {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .preparacion { order:2; max-width:90%; }
+  .imagen { order: 1; width: 90% }
+}

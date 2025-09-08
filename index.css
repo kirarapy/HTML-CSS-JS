@@ -1,0 +1,86 @@
+﻿body{
+	background: #E8F8F5;
+	font-family: "Space Grotesk", sans-serif;
+	text-align: center;
+	color:  #C2185B;
+	margin: 0;
+  	padding: 0;
+}
+h1, h2 {
+  font-family: "Macondo Swash Caps", cursive;
+  color: #F8B195; /* Salmón pastel */
+}
+@media (max-width: 768px) {
+  .contenedor {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .definicion, .c {
+    max-width: 90%;
+  }
+}
+.contenedor{
+  display: flex;
+  flex-wrap: wrap; /* Permite que los bloques bajen si no hay espacio */
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px; /* separación entre los dos bloques */
+  padding: 20px;
+}
+.definicion{
+	background-color: #FFEBEE;
+	border: 5px solid #581845;
+	color: #C2185B;
+	max-width: 600px;
+	padding: 10px;
+  	margin: 0;
+  	line-height: 1.4;
+	flex: 1 1 300px; /* permite que se ajuste */
+}
+.c{
+	background-color: #FFEBEE;
+	border: 5px solid #581845;
+	padding: 5px;
+	flex: 1 1 300px; /* permite que se ajuste */
+	max-width: 100%;
+  	height: auto;
+  	display: block;
+}
+p{
+	background-color:  #F9E79F;
+	margin: 0;
+}
+/* NAVBAR ESTILO PASTEL */
+.navbar{
+  background-color: #FADADD; /* Rosa empolvado */
+  padding: 10px 0;
+  position: sticky; /* Se mantiene arriba al hacer scroll */
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.navbar ul{
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+.navbar li{
+  margin: 0 15px;
+}
+.navbar a{
+  text-decoration: none;
+  font-family: 'Quicksand', sans-serif; /* Fuente más moderna */
+  font-size: 18px;
+  color: #5E548E; /* Lavanda oscuro */
+  font-weight: bold;
+  padding: 8px 12px;
+  transition: background 0.3s ease, color 0.3s ease;
+  border-radius: 6px;
+}
+.navbar a:hover {
+  background-color: #D1C4E9; /* Lavanda claro */
+  color: #fff;
+}
