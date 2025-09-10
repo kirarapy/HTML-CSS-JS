@@ -4,50 +4,56 @@ document.addEventListener('DOMContentLoaded', () => {
   const submitBtn = form.querySelector('input[type="submit"]');
   const paisSelect = document.getElementById('pais');
   const telefonoInput = document.getElementById('telefono');
+
   let prefijos = {};
+  // Validaciones
+  const expRegNombre = /^[\p{L}\s]+$/u; // letras con acentos
+  const expRegTelefono = /^[0-9\s()+-]{6,20}$/; // números, +, -, (), espacios
+  // 1. Cargar países
+  async function cargarPaises() {
+    try {
+      const res = await fetch('https://restcountries.com/v3.1/all');
+      if (!res.ok) throw new Error("Error al cargar API");
 
-  // Validaciones básicas
-  const expRegNombre = /^[\p{L}\s]+$/u;
-  const expRegTelefono = /^[0-9\s()+-]{6,20}$/;
-
-  // 1. Cargar lista de países desde REST Countries
-  fetch('https://restcountries.com/v3.1/all')
-    .then(res => res.json())
-    .then(data => {
+      const data = await res.json();
       // Ordenar alfabéticamente
       data.sort((a, b) => a.name.common.localeCompare(b.name.common));
+
+      // Reset opciones
       paisSelect.innerHTML = '<option value="">Elegir país</option>';
 
       data.forEach(p => {
-        const opt = document.createElement('option');
-        opt.value = p.cca2;
-        opt.textContent = p.name.common;
-        paisSelect.appendChild(opt);
+        if (p.name && p.cca2) {
+          const opt = document.createElement('option');
+          opt.value = p.cca2;
+          opt.textContent = p.name.common;
+          paisSelect.appendChild(opt);
 
-        // Guardar prefijo
-        if (p.idd && p.idd.root) {
-          prefijos[p.cca2] = p.idd.root + (p.idd.suffixes ? p.idd.suffixes[0] : '');
+          if (p.idd && p.idd.root) {
+            prefijos[p.cca2] = p.idd.root + (p.idd.suffixes ? p.idd.suffixes[0] : '');
+          }
         }
       });
-    })
-    .catch(err => {
-      console.error("Error cargando países:", err);
-      paisSelect.innerHTML = '<option value="">No se pudo cargar</option>';
-    });
+    } catch (err) {
+      console.error("No se pudo cargar países:", err);
+      paisSelect.innerHTML = '<option value="">Error cargando países</option>';
+    }
+  }
 
-  // 2. Autocompletar prefijo al elegir país
+  cargarPaises();
+  // Autocompletar prefijo según país
   paisSelect.addEventListener('change', () => {
     const selected = paisSelect.value;
     telefonoInput.value = prefijos[selected] ? prefijos[selected] + ' ' : '';
   });
-
-  // 3. Envío del formulario
+  // 2. Envío del formulario
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const nombre = form.nombre.value.trim();
     const apellido = form.apellido.value.trim();
     const telefono = telefonoInput.value.trim();
+    const pais = paisSelect.value;
 
     // Validaciones
     if (!expRegNombre.test(nombre)) {
@@ -62,12 +68,12 @@ document.addEventListener('DOMContentLoaded', () => {
       Swal.fire('Error', 'El teléfono solo puede contener números y caracteres válidos.', 'error');
       return;
     }
-    if (!paisSelect.value) {
+    if (!pais) {
       Swal.fire('Error', 'Por favor selecciona un país.', 'error');
       return;
     }
 
-    // Confirmación antes de enviar
+    // Confirmación
     const confirmResult = await Swal.fire({
       title: '¿Enviar formulario?',
       text: 'Tu mensaje será enviado a nuestro correo.',
