@@ -1,10 +1,9 @@
-/* RESET GENERAL */
+/* Reset general*/
 * {
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
-
-/* DISE—O BASE */
+/* Dise√±o base */
 body {
   background: #E8F8F5;
   font-family: "Space Grotesk", sans-serif;
@@ -12,14 +11,14 @@ body {
   margin: 0;
   padding: 0;
 }
-
+/* Encabezado */
 h1 {
   font-family: "Macondo Swash Caps", cursive;
   color: #F8B195;
   text-align: center;
   margin-top: 30px; 
 }
-
+/* Formulario */
 form {
   max-width: 600px;
   margin: 0 auto;
@@ -29,29 +28,28 @@ form {
   border: 3px solid #C8E6C9;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
-
-/* FIELDSET Y LEGEND */
+/* Fieldset y legend */
 fieldset {
-  border: none;
-  margin-bottom: 15px;
+  border: 2px solid #FADADD;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  background: #fff;
 }
-
 legend {
   font-size: 1.2rem;
   font-weight: bold;
   color: #d6336c;
   margin-bottom: 10px;
 }
-
-/* LABELS */
+/* Labels */
 label {
+  font-size: 1.1rem;
   font-weight: bold;
-  margin-bottom: 5px;
-  color: #a8325c;
-	display: block;
+  color: #d6336c;
+  padding: 0 10px;
 }
-
-/* INPUTS & TEXTAREAS */
+/* Inputs y textareas */
 input[type="text"],
 input[type="email"],
 input[type="url"],
@@ -67,44 +65,38 @@ select {
   font-size: 1rem;
   transition: 0.3s;
 }
-
 input:focus, textarea:focus, select:focus {
   border-color: #ff99aa;
   outline: none;
 }
-
-/* PLACEHOLDER */
+/* Placeholder */
 ::placeholder {
   font-style: normal;
   color: #aaa;
 	font-size: 0.95rem;
   font-family: 'Space Grotesk', sans-serif;
 }
-
-/* RADIO BUTTONS */
+/* Radio buttons */
 .sexo {
   display: flex;
   gap: 20px;
   align-items: center;
   margin: 8PX 0 15PX 0;
 }
-
 .sexo label {
   display: flex;
 	align-items: center;
   margin: 0;
 	gap: 5px
 }
-
 input[type="radio"] {
   margin-right: 5px;
 }
-
-/* SELECT personalizado */
+/* Select personalizado */
 select {
   appearance: none;
   background: #fff 
-    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="gray"><polygon points="0,0 12,0 6,7"/></svg>') 
+	url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="gray"><polygon points="0,0 12,0 6,7"/></svg>') 
     no-repeat right 10px center;
   background-size: 12px;
   font-family: 'Space Grotesk', sans-serif;
@@ -117,32 +109,26 @@ select {
   cursor: pointer;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
-
 select:focus {
   border-color: #D1C4E9;
   box-shadow: 0 0 5px rgba(209, 196, 233, 0.5);
 }
-
-/* OPCIONES personalizadas */
+/* Opciones personalizadas */
 select option {
   background: #FFF5F5;
   color: #5E548E; /* Color del texto */
   font-family: 'Space Grotesk', sans-serif;
   font-size: 1rem;
 }
-
 /* Placeholder ("Elegir") estilo distinto */
 select option[value=""] {
   color: #B0A8B9;
   font-style: normal;
 }
-
-
-/* BOTONES */
+/* Botones */
 .botones {
   text-align: center;
 }
-
 input[type="submit"], 
 input[type="reset"], 
 button {
@@ -154,10 +140,9 @@ button {
   border-radius: 6px;
   cursor: pointer;
   margin: 5px;
-	font-size: 1rem;
+  font-size: 1rem;
   transition: background 0.3s ease, transform 0.2s ease;
 }
-
 input[type="submit"]:hover,
 input[type="reset"]:hover,
 button:hover {
@@ -165,8 +150,7 @@ button:hover {
   color: white;
   transform: scale(1.05);
 }
-
-/* NAVBAR */
+/* Navbar */
 .navbar {
   background-color: #FADADD;
   padding: 10px 0;
@@ -175,7 +159,6 @@ button:hover {
   z-index: 1000;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
-
 .navbar ul {
   list-style: none;
   display: flex;
@@ -183,11 +166,9 @@ button:hover {
   margin: 0;
   padding: 0;
 }
-
 .navbar li {
   margin: 0 15px;
 }
-
 .navbar a {
   text-decoration: none;
   font-family: 'Quicksand', sans-serif;
@@ -198,19 +179,16 @@ button:hover {
   transition: background 0.3s ease, color 0.3s ease;
   border-radius: 6px;
 }
-
 .navbar a:hover {
   background-color: #D1C4E9;
   color: #fff;
 }
-
-/* RESPONSIVE */
+/* Responsive */
 @media (max-width: 768px) {
   .sexo {
     flex-direction: column;
     align-items: flex-start;
   }
-
   form {
     max-width: 90%;
   }
@@ -220,8 +198,7 @@ button:hover {
   color: red;
   font-weight: bold;
 }
-
-/* SPINNER DE CARGA */
+/* Spinner de carga */
 .spinner {
   display: none; /* Oculto por defecto */
   border: 4px solid #f3f3f3; /* Fondo gris claro */
@@ -232,9 +209,27 @@ button:hover {
   animation: spin 1s linear infinite;
   margin: 10px auto;
 }
-
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-
+/* Campos obligatorios */
+.nota-obligatorios {
+  font-size: 0.9rem;
+  color: #777;
+  text-align: center;
+  margin-top: -5px;
+  margin-bottom: 15px;
+}
+/* Validaciones visuales */
+input:invalid, textarea:invalid, select:invalid {
+  border-color: #E57373;
+  background: #fff5f5;
+}
+input:valid, textarea:valid, select:valid {
+  border-color: #81C784;
+}
+/* Checkbox */
+input[type="checkbox"] {
+  margin-right: 5px;
+}
