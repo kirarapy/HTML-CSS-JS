@@ -1,7 +1,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title> Mis Recetas </title>
+<title>Mis Recetas </title>
 <link rel="stylesheet" type="text/css" href="contacto.css">
 <!-- Fuentes de Google -->
 <link href="https://fonts.googleapis.com/css2?family=Macondo+Swash+Caps&family=Major+Mono+Display&display=swap" rel="stylesheet">
@@ -12,7 +12,7 @@
 <script src="contacto.js" defer></script>
 </head>
 <body>
- <!-- NAVBAR -->
+ <!-- Navbar -->
 <nav class="navbar">
   <ul>
     <li><a href="index.html">Inicio</a></li>
@@ -21,46 +21,60 @@
   </ul>
 </nav>
 <hr>
-<h1> Formulario de contacto </h1>
+<h1>Formulario de contacto</h1>
 
 <form id="formulario" action="https://formspree.io/f/mkgvypan" method="POST">
   <fieldset>
-    <legend>Favor ingresar datos</legend>
-    
-    <label for="nombre">Nombre <span class="required">*</span></label>
-    <input type="text" id="nombre" name="nombre" maxlength="100" placeholder="Escriba su nombre" required><br>
+    <legend>Datos personales</legend>
 
-    <label for="apellido">Apellido <span class="required">*</span></label>
-    <input type="text" id="apellido" name="apellido" maxlength="150" placeholder="Escriba su apellido" required><br>
+    <label for="nombre">Nombre<span class="required">*</span></label>
+    <input type="text" id="nombre" name="nombre" maxlength="100" placeholder="Ej: Ana" required autocomplete="given-name" pattern="[A-Za-zÀ-ÿ\s]+"><br>
 
-    <label>Sexo <span class="required">*</span></label>
+    <label for="apellido">Apellido<span class="required">*</span></label>
+    <input type="text" id="apellido" name="apellido" maxlength="150" placeholder="Ej: González" required autocomplete="family-name" pattern="[A-Za-zÀ-ÿ\s]+"><br>
+
+    <label>Sexo<span class="required">*</span></label>
     <div class="sexo">
       <input type="radio" name="sexo" id="hombre" value="Hombre" required>
       <label for="hombre">Masculino</label>
       <input type="radio" name="sexo" id="femenino" value="Femenino">
       <label for="femenino">Femenino</label>
     </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Información de contacto</legend>
 
     <label for="direccion">Dirección</label>
-    <input type="text" id="direccion" name="direccion" maxlength="250" placeholder="Escriba su dirección"><br>
+    <input type="text" id="direccion" name="direccion" maxlength="250" placeholder="Calle 123, Ciudad" autocomplete="address-line1"><br>
 
-    <label for="email">E-mail <span class="required">*</span></label>
-    <input type="email" id="email" name="email" maxlength="100" placeholder="ejemplo@email.com" required><br>
+    <label for="email">E-mail<span class="required">*</span></label>
+    <input type="email" id="email" name="email" maxlength="100" placeholder="ejemplo@email.com" required autocomplete="email"><br>
 
     <label for="sitioweb">Sitio Web</label>
     <input type="url" id="sitioweb" name="sitioweb" maxlength="250" placeholder="https://"><br>
 
-    <label for="pais">País <span class="required">*</span></label>
-    <select id="pais" name="pais" required>
-      <option value="">Cargando países...</option>
+    <label for="pais">País</label>
+    <select id="pais" name="pais">
+    <option value="">Cargando países...</option>
     </select><br>
 
     <label for="telefono">Teléfono</label>
-    <input type="tel" id="telefono" name="telefono" maxlength="200" placeholder="Ej: 0981 123 456"><br>
+    <input type="tel" id="telefono" name="telefono" maxlength="200" placeholder="Ej: +595 981 123 456" autocomplete="tel"><br>
+    </fieldset>
 
-    <label for="mensaje">Mensaje <span class="required">*</span></label><br>
-    <textarea id="mensaje" name="mensaje" rows="5" maxlength="500" placeholder="Escriba su mensaje" required></textarea><br>
+    <fieldset>
+    <legend>Tu mensaje</legend>
+
+    <label for="mensaje">Mensaje<span class="required">*</span></label><br>
+    <textarea id="mensaje" name="mensaje" rows="5" maxlength="500" placeholder="Escribe tu mensaje aquí..." required></textarea><br>
+
+    <label>
+      <input type="checkbox" name="suscripcion">Deseo recibir recetas en mi correo
+    </label>
   </fieldset>
+
+  <p class="nota-obligatorios">Los campos marcados con<span class="required">*</span> son obligatorios.</p>
   <!-- Spinner -->
   <div class="spinner" id="spinner"></div>
   <!-- Botones -->
