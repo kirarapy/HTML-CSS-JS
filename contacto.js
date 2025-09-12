@@ -9,16 +9,20 @@ document.addEventListener('DOMContentLoaded', () => {
   // Validaciones
   const expRegNombre = /^[\p{L}\s]+$/u; // letras con acentos
   const expRegTelefono = /^[0-9\s()+-]{6,20}$/; // números, +, -, (), espacios
-  // 1. Cargar países
+  // 1. Cargar países usando proxy para evitar CORS
   async function cargarPaises() {
     try {
-      const res = await fetch('https://restcountries.com/v3.1/all');
+      const res = await fetch(
+        'https://api.allorigins.win/get?url=' + encodeURIComponent('https://restcountries.com/v3.1/all')
+      );
       if (!res.ok) throw new Error("Error al cargar API");
 
-      const data = await res.json();
+      const dataProxy = await res.json();
+      const data = JSON.parse(dataProxy.contents); // contenido real
+
+      console.log("✅ Países recibidos:", data.length); // depuración
       // Ordenar alfabéticamente
       data.sort((a, b) => a.name.common.localeCompare(b.name.common));
-
       // Reset opciones
       paisSelect.innerHTML = '<option value="">Elegir país</option>';
 
@@ -35,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     } catch (err) {
-      console.error("No se pudo cargar países:", err);
+      console.error("❌ No se pudo cargar países:", err);
       paisSelect.innerHTML = '<option value="">Error cargando países</option>';
     }
   }
@@ -44,9 +48,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Autocompletar prefijo según país
   paisSelect.addEventListener('change', () => {
     const selected = paisSelect.value;
-    telefonoInput.value = prefijos[selected] ? prefijos[selected] + ' ' : '';
+    if (prefijos[selected]) {
+      telefonoInput.value = prefijos[selected] + ' ';
+    }
   });
-  // 2. Envío del formulario
+  // 2. Envío del formulario con Formspree
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -68,10 +74,10 @@ document.addEventListener('DOMContentLoaded', () => {
       Swal.fire('Error', 'El teléfono solo puede contener números y caracteres válidos.', 'error');
       return;
     }
-    if (!pais) {
-      Swal.fire('Error', 'Por favor selecciona un país.', 'error');
-      return;
-    }
+    // if (!pais) {
+    //   Swal.fire('Error', 'Por favor selecciona un país.', 'error');
+    //   return;
+    // }
 
     // Confirmación
     const confirmResult = await Swal.fire({
@@ -85,7 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     if (!confirmResult.isConfirmed) return;
-
     // Spinner ON
     spinner.style.display = 'block';
     submitBtn.disabled = true;
