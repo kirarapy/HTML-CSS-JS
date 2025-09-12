@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Validaciones
   const expRegNombre = /^[\p{L}\s]+$/u; // letras con acentos
   const expRegTelefono = /^[0-9\s()+-]{6,20}$/; // números, +, -, (), espacios
-  // 1. Cargar países usando proxy para evitar CORS
+ // 1. Cargar países con proxy para evitar CORS
   async function cargarPaises() {
     try {
       const res = await fetch(
@@ -18,11 +18,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!res.ok) throw new Error("Error al cargar API");
 
       const dataProxy = await res.json();
-      const data = JSON.parse(dataProxy.contents); // contenido real
+      const data = JSON.parse(dataProxy.contents);
 
-      console.log("✅ Países recibidos:", data.length); // depuración
-      // Ordenar alfabéticamente
+      if (!Array.isArray(data)) throw new Error("Formato inesperado de API");
+
+      // Ordenar por nombre común
       data.sort((a, b) => a.name.common.localeCompare(b.name.common));
+
       // Reset opciones
       paisSelect.innerHTML = '<option value="">Elegir país</option>';
 
@@ -38,6 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
       });
+
+      console.log("✅ Países cargados:", data.length);
     } catch (err) {
       console.error("❌ No se pudo cargar países:", err);
       paisSelect.innerHTML = '<option value="">Error cargando países</option>';
@@ -45,14 +49,16 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   cargarPaises();
-  // Autocompletar prefijo según país
+
+  // Autocompletar prefijo según país (pero editable)
   paisSelect.addEventListener('change', () => {
     const selected = paisSelect.value;
     if (prefijos[selected]) {
       telefonoInput.value = prefijos[selected] + ' ';
     }
   });
-  // 2. Envío del formulario con Formspree
+
+  // 2. Envío del formulario
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -60,8 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const apellido = form.apellido.value.trim();
     const telefono = telefonoInput.value.trim();
     const pais = paisSelect.value;
-
-    // Validaciones
+    // Validaciones básicas
     if (!expRegNombre.test(nombre)) {
       Swal.fire('Error', 'El nombre solo puede contener letras y espacios.', 'error');
       return;
@@ -71,9 +76,8 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
     if (telefono && !expRegTelefono.test(telefono)) {
-      Swal.fire('Error', 'El teléfono solo puede contener números y caracteres válidos.', 'error');
+      Swal.fire('Error', 'El teléfono contiene caracteres inválidos.', 'error');
       return;
-    }
     // if (!pais) {
     //   Swal.fire('Error', 'Por favor selecciona un país.', 'error');
     //   return;
@@ -117,3 +121,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
