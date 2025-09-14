@@ -10,42 +10,41 @@ document.addEventListener('DOMContentLoaded', () => {
   const expRegNombre = /^[\p{L}\s]+$/u; // letras con acentos
   const expRegTelefono = /^[0-9\s()+-]{6,20}$/; // números, +, -, (), espacios
   // 1. Cargar países con proxy para evitar CORS
-  async function cargarPaises() {
-    try {
-      const res = await fetch(
-        'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://restcountries.com/v3.1/all')
-      );
-      if (!res.ok) throw new Error("Error al cargar API");
+async function cargarPaises() {
+  try {
+    const url = 'https://restcountries.com/v3.1/all?fields=name,cca2,idd';
+    const res = await fetch(
+      'https://api.allorigins.win/get?url=' + encodeURIComponent(url)
+    );
+    if (!res.ok) throw new Error("Error al cargar API");
 
-      const data = await res.json();
+    const dataProxy = await res.json();
+    const data = JSON.parse(dataProxy.contents); 
 
-      if (!Array.isArray(data)) throw new Error("Formato inesperado de API");
-
-      console.log("✅ Países recibidos:", data.length);
-
-      data.sort((a, b) => a.name.common.localeCompare(b.name.common));
-
-      paisSelect.innerHTML = '<option value="">Elegir país</option>';
-
-      data.forEach(p => {
-        if (p.name && p.cca2) {
-          const opt = document.createElement('option');
-          opt.value = p.cca2;
-          opt.textContent = p.name.common;
-          paisSelect.appendChild(opt);
-
-          if (p.idd && p.idd.root) {
-            prefijos[p.cca2] = p.idd.root + (p.idd.suffixes ? p.idd.suffixes[0] : '');
-          }
+    console.log("✅ Países recibidos:", data.length);
+    // Ordenar por nombre
+    data.sort((a, b) => a.name.common.localeCompare(b.name.common));
+    // Resetear select
+    paisSelect.innerHTML = '<option value="">Elegir país</option>';
+    // Llenar con opciones
+    data.forEach(p => {
+      if (p.name && p.cca2) {
+        const opt = document.createElement('option');
+        opt.value = p.cca2;
+        opt.textContent = p.name.common;
+        paisSelect.appendChild(opt);
+        // Guardar prefijos (para autocompletar teléfono)
+        if (p.idd && p.idd.root) {
+          prefijos[p.cca2] = p.idd.root + (p.idd.suffixes ? p.idd.suffixes[0] : '');
         }
-      });
+      }
+    });
 
-    } catch (err) {
-      console.error("❌ No se pudo cargar países:", err);
-      paisSelect.innerHTML = '<option value="">Error cargando países</option>';
-    }
+  } catch (err) {
+    console.error("❌ No se pudo cargar países:", err);
+    paisSelect.innerHTML = '<option value="">Error cargando países</option>';
   }
-
+}
   cargarPaises();
   // Autocompletar prefijo según país (editable)
   paisSelect.addEventListener('change', () => {
@@ -113,3 +112,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }); 
 });
+
