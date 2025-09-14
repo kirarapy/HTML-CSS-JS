@@ -11,43 +11,41 @@ document.addEventListener('DOMContentLoaded', () => {
   const expRegTelefono = /^[0-9\s()+-]{6,20}$/; // números, +, -, (), espacios
  // 1. Cargar países con proxy para evitar CORS
   async function cargarPaises() {
-    try {
-      const res = await fetch(
-        'https://api.allorigins.win/get?url=' + encodeURIComponent('https://restcountries.com/v3.1/all')
-      );
-      if (!res.ok) throw new Error("Error al cargar API");
+  try {
+    const res = await fetch(
+      'https://api.allorigins.win/get?url=' + encodeURIComponent('https://restcountries.com/v3.1/all')
+    );
+    if (!res.ok) throw new Error("Error al cargar API");
 
-      const dataProxy = await res.json();
-      const data = JSON.parse(dataProxy.contents);
+    const dataProxy = await res.json();
+    const data = JSON.parse(dataProxy.contents); // 🔹 CORRECCIÓN
 
-      if (!Array.isArray(data)) throw new Error("Formato inesperado de API");
+    if (!Array.isArray(data)) throw new Error("Formato inesperado de API");
 
-      // Ordenar por nombre común
-      data.sort((a, b) => a.name.common.localeCompare(b.name.common));
+    console.log("✅ Países recibidos:", data.length);
 
-      // Reset opciones
-      paisSelect.innerHTML = '<option value="">Elegir país</option>';
+    data.sort((a, b) => a.name.common.localeCompare(b.name.common));
 
-      data.forEach(p => {
-        if (p.name && p.cca2) {
-          const opt = document.createElement('option');
-          opt.value = p.cca2;
-          opt.textContent = p.name.common;
-          paisSelect.appendChild(opt);
+    paisSelect.innerHTML = '<option value="">Elegir país</option>';
 
-          if (p.idd && p.idd.root) {
-            prefijos[p.cca2] = p.idd.root + (p.idd.suffixes ? p.idd.suffixes[0] : '');
-          }
+    data.forEach(p => {
+      if (p.name && p.cca2) {
+        const opt = document.createElement('option');
+        opt.value = p.cca2;
+        opt.textContent = p.name.common;
+        paisSelect.appendChild(opt);
+
+        if (p.idd && p.idd.root) {
+          prefijos[p.cca2] = p.idd.root + (p.idd.suffixes ? p.idd.suffixes[0] : '');
         }
-      });
+      }
+    });
 
-      console.log("✅ Países cargados:", data.length);
-    } catch (err) {
-      console.error("❌ No se pudo cargar países:", err);
-      paisSelect.innerHTML = '<option value="">Error cargando países</option>';
-    }
+  } catch (err) {
+    console.error("❌ No se pudo cargar países:", err);
+    paisSelect.innerHTML = '<option value="">Error cargando países</option>';
   }
-
+}
   cargarPaises();
 
   // Autocompletar prefijo según país (pero editable)
@@ -121,4 +119,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
 
