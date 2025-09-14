@@ -9,53 +9,51 @@ document.addEventListener('DOMContentLoaded', () => {
   // Validaciones
   const expRegNombre = /^[\p{L}\s]+$/u; // letras con acentos
   const expRegTelefono = /^[0-9\s()+-]{6,20}$/; // números, +, -, (), espacios
- // 1. Cargar países con proxy para evitar CORS
+  // 1. Cargar países con proxy para evitar CORS
   async function cargarPaises() {
-  try {
-    const res = await fetch(
-      'https://api.allorigins.win/get?url=' + encodeURIComponent('https://restcountries.com/v3.1/all')
-    );
-    if (!res.ok) throw new Error("Error al cargar API");
+    try {
+      const res = await fetch(
+        'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://restcountries.com/v3.1/all')
+      );
+      if (!res.ok) throw new Error("Error al cargar API");
 
-    const dataProxy = await res.json();
-    const data = JSON.parse(dataProxy.contents); // CORRECCIÓN
+      const data = await res.json();
 
-    if (!Array.isArray(data)) throw new Error("Formato inesperado de API");
+      if (!Array.isArray(data)) throw new Error("Formato inesperado de API");
 
-    console.log("✅ Países recibidos:", data.length);
+      console.log("✅ Países recibidos:", data.length);
 
-    data.sort((a, b) => a.name.common.localeCompare(b.name.common));
+      data.sort((a, b) => a.name.common.localeCompare(b.name.common));
 
-    paisSelect.innerHTML = '<option value="">Elegir país</option>';
+      paisSelect.innerHTML = '<option value="">Elegir país</option>';
 
-    data.forEach(p => {
-      if (p.name && p.cca2) {
-        const opt = document.createElement('option');
-        opt.value = p.cca2;
-        opt.textContent = p.name.common;
-        paisSelect.appendChild(opt);
+      data.forEach(p => {
+        if (p.name && p.cca2) {
+          const opt = document.createElement('option');
+          opt.value = p.cca2;
+          opt.textContent = p.name.common;
+          paisSelect.appendChild(opt);
 
-        if (p.idd && p.idd.root) {
-          prefijos[p.cca2] = p.idd.root + (p.idd.suffixes ? p.idd.suffixes[0] : '');
+          if (p.idd && p.idd.root) {
+            prefijos[p.cca2] = p.idd.root + (p.idd.suffixes ? p.idd.suffixes[0] : '');
+          }
         }
-      }
-    });
+      });
 
-  } catch (err) {
-    console.error("❌ No se pudo cargar países:", err);
-    paisSelect.innerHTML = '<option value="">Error cargando países</option>';
+    } catch (err) {
+      console.error("❌ No se pudo cargar países:", err);
+      paisSelect.innerHTML = '<option value="">Error cargando países</option>';
+    }
   }
-}
-  cargarPaises();
 
-  // Autocompletar prefijo según país (pero editable)
+  cargarPaises();
+  // Autocompletar prefijo según país (editable)
   paisSelect.addEventListener('change', () => {
     const selected = paisSelect.value;
     if (prefijos[selected]) {
       telefonoInput.value = prefijos[selected] + ' ';
     }
   });
-
   // 2. Envío del formulario
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -76,10 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (telefono && !expRegTelefono.test(telefono)) {
       Swal.fire('Error', 'El teléfono contiene caracteres inválidos.', 'error');
       return;
-    // if (!pais) {
-    //   Swal.fire('Error', 'Por favor selecciona un país.', 'error');
-    //   return;
-    // }
+    }
     // Confirmación
     const confirmResult = await Swal.fire({
       title: '¿Enviar formulario?',
@@ -116,4 +111,5 @@ document.addEventListener('DOMContentLoaded', () => {
       spinner.style.display = 'none';
       submitBtn.disabled = false;
     }
-  });
+  }); 
+});
