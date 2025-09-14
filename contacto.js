@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!res.ok) throw new Error("Error al cargar API");
 
     const dataProxy = await res.json();
-    const data = JSON.parse(dataProxy.contents); // 🔹 CORRECCIÓN
+    const data = JSON.parse(dataProxy.contents); // CORRECCIÓN
 
     if (!Array.isArray(data)) throw new Error("Formato inesperado de API");
 
@@ -80,7 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
     //   Swal.fire('Error', 'Por favor selecciona un país.', 'error');
     //   return;
     // }
-
     // Confirmación
     const confirmResult = await Swal.fire({
       title: '¿Enviar formulario?',
@@ -118,6 +117,3 @@ document.addEventListener('DOMContentLoaded', () => {
       submitBtn.disabled = false;
     }
   });
-});
-
-
