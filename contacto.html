@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <title>Mis Recetas </title>
@@ -8,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
 <!-- Librería SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<!-- Script propio -->
+<!-- Script -->
 <script src="contacto.js" defer></script>
 </head>
 <body>
@@ -70,9 +71,8 @@
     <label for="mensaje">Mensaje<span class="required">*</span></label><br>
     <textarea id="mensaje" name="mensaje" rows="5" maxlength="500" placeholder="Escribe tu mensaje aquí..." required></textarea><br>
 
-    <label>
-      <input type="checkbox" name="suscripcion">Deseo recibir recetas en mi correo
-    </label>
+    <input type="checkbox" id="suscripcion" name="suscripcion">
+    <label for="suscripcion">Deseo recibir recetas en mi correo</label>
   </fieldset>
 
   <p class="nota-obligatorios">Los campos marcados con<span class="required">*</span> son obligatorios.</p>
@@ -86,4 +86,3 @@
 </form>
 </body>
 </html>
-
