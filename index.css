@@ -1,4 +1,4 @@
-﻿body{
+body{
 	background: #E8F8F5;
 	font-family: "Space Grotesk", sans-serif;
 	text-align: center;
@@ -15,43 +15,50 @@ h1, h2 {
     flex-direction: column;
     align-items: center;
   }
-
   .definicion, .c {
-    max-width: 90%;
+    max-width: 100%; /* que ocupen todo el ancho disponible */
   }
 }
 .contenedor{
   display: flex;
   flex-wrap: wrap; /* Permite que los bloques bajen si no hay espacio */
   justify-content: center;
-  align-items: flex-start;
-  gap: 20px; /* separación entre los dos bloques */
+  align-items: stretch; /* Ambos bloques tienen la misma altura */
+  gap: 20px; /* Separación entre los dos bloques */
   padding: 20px;
 }
-.definicion{
-	background-color: #FFEBEE;
-	border: 5px solid #581845;
-	color: #C2185B;
-	max-width: 600px;
-	padding: 10px;
-  	margin: 0;
-  	line-height: 1.4;
-	flex: 1 1 300px; /* permite que se ajuste */
+.definicion, .c {
+  background-color: #FFEBEE;
+  border: 5px solid #581845;
+  color: #C2185B;
+  padding: 10px;
+  margin: 0;
+  line-height: 1.4;
+  flex: 1 1 300px; /* ambos se adaptan */
+  max-width: 600px; /* mismo límite de ancho */
+  box-sizing: border-box; /* para que el padding + border no rompa el ancho */
 }
 .c{
 	background-color: #FFEBEE;
 	border: 5px solid #581845;
 	padding: 5px;
-	flex: 1 1 300px; /* permite que se ajuste */
-	max-width: 100%;
-  	height: auto;
-  	display: block;
+	flex: 1; /* permite que se ajuste */
+	width: 100%;
+  height: auto;
+  display: block;
+}
+.c img {
+  max-width: 100%; /* La imagen nunca será más ancha que su contenedor */
+  height: auto;    /* Mantiene la proporción */
+  display: block;  /* Quita espacios raros debajo */
+  margin: 0 auto;  /* Centra la imagen */
+  border-radius: 8px; /* opcional, para que se vea más bonita */
 }
 p{
 	background-color:  #F9E79F;
 	margin: 0;
 }
-/* NAVBAR ESTILO PASTEL */
+/* NAVBAR */
 .navbar{
   background-color: #FADADD; /* Rosa empolvado */
   padding: 10px 0;
