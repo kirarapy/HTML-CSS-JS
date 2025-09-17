@@ -8,7 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let prefijos = {};
   // Validaciones
   const expRegNombre = /^[\p{L}\s]+$/u; // letras con acentos
-  const expRegTelefono = /^[0-9\s()+-]{6,20}$/; // números, +, -, (), espacios
+  // Flexible: números, espacios, paréntesis, + y - (mín 2, máx 20)
+  const expRegTelefono = /^[0-9\s()+-]{1,30}$/;
   // 1. Cargar países con proxy para evitar CORS
 async function cargarPaises() {
   try {
@@ -24,8 +25,8 @@ async function cargarPaises() {
     console.log("✅ Países recibidos:", data.length);
     // Ordenar por nombre
     data.sort((a, b) => a.name.common.localeCompare(b.name.common));
-    // Resetear select
-    paisSelect.innerHTML = '<option value="">Elegir país</option>';
+    // Resetear select con placeholder visible pero no seleccionable en la lista
+    paisSelect.innerHTML = '<option value="" disabled selected hidden>Elegir país</option>';
     // Llenar con opciones
     data.forEach(p => {
       if (p.name && p.cca2) {
@@ -112,4 +113,5 @@ async function cargarPaises() {
     }
   }); 
 });
+
 
